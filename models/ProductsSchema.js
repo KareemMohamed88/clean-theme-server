@@ -13,8 +13,8 @@ const ProductSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    arr:{
-      type: Array
+    livePreviewLink:{
+      type: String
     }
   },
   { timestamps: true }
