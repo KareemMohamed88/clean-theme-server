@@ -13,9 +13,18 @@ const ProductSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    arr:{
-      type: Array
-    }
+    summary: {
+      type: String,
+      required: true,
+    },
+    tags: {
+      type: String,
+      required: true,
+    },
+    livePreviewLink: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
