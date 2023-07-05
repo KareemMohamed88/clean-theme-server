@@ -27,14 +27,18 @@ exports.findProductById = asyncHandler(async (req, res) => {
 //UPDATE PRODUCT BY ID
 exports.updateProduct = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const { title, price, cardImage } = req.body;
+  const { title, price, cardImage, summary, tags, livePreviewLink, getSourceCode } = req.body;
 
   const product = await ProductModal.findOneAndUpdate(
     { _id: id },
-    { title, price, cardImage },
+    { title, price, cardImage, summary, tags, livePreviewLink, getSourceCode },
     { title: true },
     { price: true },
-    { cardImage: true }
+    { cardImage: true },
+    { summary: true },
+    { tags: true },
+    { livePreviewLink: true },
+    { getSourceCode: true },
   );
 
   if (!product) {
