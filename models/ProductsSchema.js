@@ -25,6 +25,10 @@ const ProductSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    getSourceCode: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
