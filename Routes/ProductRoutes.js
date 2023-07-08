@@ -1,8 +1,5 @@
 const express = require("express");
-const {
-  getProductVaildator,
-  getCreateProductVaildator,
-} = require("../utils/vaildators/productVaildator");
+
 const {
   createProduct,
   readProducts,
@@ -15,10 +12,10 @@ const router = express.Router();
 router
   .route("/")
   .get(readProducts)
-  .post(getCreateProductVaildator, createProduct);
+  .post(createProduct);
 router
   .route("/:id")
-  .get(getProductVaildator, findProductById)
+  .get(findProductById)
   .put(updateProduct)
   .delete(deleteProduct);
 module.exports = router;
