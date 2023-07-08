@@ -1,11 +1,14 @@
-// users api
-
-
 const express = require("express");
-const { registertion, login } = require("../services/UserServices");
+const { getCreateUserVaildator } = require("../utils/vaildators/userVaildator");
+const {
+  registertion,
+  login,
+  getAllUsers,
+} = require("../services/UserServices");
 
 const router = express.Router();
 
-router.route("/register").post(registertion)
-router.route("/login").post(login)
+router.route("/").get(getAllUsers);
+router.route("/register").post(getCreateUserVaildator, registertion);
+router.route("/login").post(login);
 module.exports = router;

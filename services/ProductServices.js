@@ -13,21 +13,37 @@ exports.createProduct = asyncHandler(async (req, res) => {
 //READ
 
 //GET ALL PRODUCTS
-exports.readProducts = asyncHandler(async (req, res) => {
+exports.readProducts = asyncHandler(async (req, res, next) => {
   const product = await ProductModal.find();
-  res.status(201).json(product);
+  if (!product) {
+    next(new apiError(`no product for this ${id}`, 404));
+  } else {
+    res.status(200).json(product);
+  }
 });
 
 //GET ONE PRODUCT BY ID
-exports.findProductById = asyncHandler(async (req, res) => {
-  const {id} = req.params
+exports.findProductById = asyncHandler(async (req, res, next) => {
+  const { id } = req.params;
   const product = await ProductModal.findById(id);
-  res.status(201).json(product);
+  if (!product) {
+    next(new apiError(`no product for this ${id}`, 404));
+  } else {
+    res.status(200).json(product);
+  }
 });
 //UPDATE PRODUCT BY ID
 exports.updateProduct = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
-  const { title, price, cardImage, summary, tags, livePreviewLink, getSourceCode } = req.body;
+  const {
+    title,
+    price,
+    cardImage,
+    summary,
+    tags,
+    livePreviewLink,
+    getSourceCode,
+  } = req.body;
 
   const product = await ProductModal.findOneAndUpdate(
     { _id: id },
@@ -38,13 +54,13 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
     { summary: true },
     { tags: true },
     { livePreviewLink: true },
-    { getSourceCode: true },
+    { getSourceCode: true }
   );
 
   if (!product) {
     next(new apiError(`no product for this ${id}`, 404));
   } else {
-    res.status(200).json({ data: product });
+    res.status(201).json({ data: product });
   }
 });
 //DELETE PRODUCT

@@ -1,6 +1,8 @@
-// products api
-
 const express = require("express");
+const {
+  getProductVaildator,
+  getCreateProductVaildator,
+} = require("../utils/vaildators/productVaildator");
 const {
   createProduct,
   readProducts,
@@ -10,10 +12,13 @@ const {
 } = require("../services/ProductServices");
 const router = express.Router();
 
-router.route("/").get(readProducts).post(createProduct);
+router
+  .route("/")
+  .get(readProducts)
+  .post(getCreateProductVaildator, createProduct);
 router
   .route("/:id")
-  .get(findProductById)
+  .get(getProductVaildator, findProductById)
   .put(updateProduct)
   .delete(deleteProduct);
 module.exports = router;
