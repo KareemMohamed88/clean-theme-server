@@ -3,7 +3,6 @@ const morgan = require("morgan");
 const dotenv = require("dotenv");
 const dbConnection = require("./config/conn");
 const ProductRoutes = require("./Routes/ProductRoutes");
-const CategoryRoutes = require("./Routes/categoryRoutes");
 const UserRoutes = require("./Routes/UserRoutes");
 const cors = require("cors");
 const ApiError = require("./utils/apiError");
@@ -23,7 +22,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/products", ProductRoutes);
-app.use("/api/v1/categories", CategoryRoutes);
 app.use("/api/v1/users", UserRoutes);
 
 app.all("*", (req, res, next) => {
