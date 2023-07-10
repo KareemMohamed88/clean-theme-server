@@ -1,4 +1,3 @@
-const apiError = require("../utils/apiError");
 const asyncHandler = require("express-async-handler");
 const ProductModal = require("../models/ProductsSchema");
 
@@ -15,11 +14,7 @@ exports.createProduct = asyncHandler(async (req, res) => {
 //GET ALL PRODUCTS
 exports.readProducts = asyncHandler(async (req, res, next) => {
   const product = await ProductModal.find();
-  if (!product) {
-    next(new apiError(`no product for this ${id}`, 404));
-  } else {
-    res.status(200).json(product);
-  }
+  res.status(200).json(product);
 });
 
 //GET ONE PRODUCT BY ID
@@ -27,9 +22,9 @@ exports.findProductById = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const product = await ProductModal.findById(id);
   if (!product) {
-    next(new apiError(`no product for this ${id}`, 404));
+    res.status(400).json({message: "no product for this id"})
   } else {
-    res.status(200).json(product);
+    res.status(200).json({ data: product });
   }
 });
 //UPDATE PRODUCT BY ID
@@ -58,19 +53,19 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
   );
 
   if (!product) {
-    next(new apiError(`no product for this ${id}`, 404));
+    res.status(400).json({message: "no product for this id"})
   } else {
-    res.status(201).json({ data: product });
+    res.status(200).json({ data: product });
   }
 });
 //DELETE PRODUCT
-exports.deleteProduct = asyncHandler(async (req, res, next) => {
+exports.deleteProduct = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
   const product = await ProductModal.findOneAndDelete(id);
 
   if (!product) {
-    next(new apiError(`no product for this ${id}`, 404));
+    res.status(400).json({message: "no product for this id"})
   } else {
     res.status(200).json({ data: product });
   }

@@ -1,14 +1,8 @@
 const express = require("express");
-const { getCreateUserVaildator } = require("../utils/vaildators/userVaildator");
-const {
-  registertion,
-  login,
-  getAllUsers,
-} = require("../services/UserServices");
+const { getAllUsers } = require("../services/userServices");
+const { veryfiyToken } = require("../middlewares/veryfiyToken");
 
 const router = express.Router();
 
-router.route("/").get(getAllUsers);
-router.route("/register").post(getCreateUserVaildator, registertion);
-router.route("/login").post(login);
+router.route("/profile").get(veryfiyToken, getAllUsers);
 module.exports = router;

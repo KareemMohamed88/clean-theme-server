@@ -3,10 +3,11 @@ const morgan = require("morgan");
 const dotenv = require("dotenv");
 const dbConnection = require("./config/conn");
 const ProductRoutes = require("./Routes/ProductRoutes");
+const AuthRoutes = require("./Routes/AuthRoutes");
 const UserRoutes = require("./Routes/UserRoutes");
 const cors = require("cors");
-const ApiError = require("./utils/apiError");
-const globalError = require("./middleware/errorMiddleware");
+//const ApiError = require("./utils/apiError");
+//const globalError = require("./middleware/errorMiddleware");
 const app = express();
 dotenv.config({ path: "./config.env" });
 
@@ -21,23 +22,11 @@ app.get("/", (req, res) => {
   res.send("app runed");
 });
 
-app.use("/api/v1/products", ProductRoutes);
+app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/users", UserRoutes);
+app.use("/api/v1/products", ProductRoutes);
 
-app.all("*", (req, res, next) => {
-  next(new ApiError(`Can't find this route ${req.originalUrl}`, 400));
-});
-
-app.use(globalError);
 
 const server = app.listen(process.env.PORT || 3001, () => {
   console.log(`http://localhost:${process.env.PORT}`);
-});
-
-process.on("unhandledRejection", (err) => {
-  console.error(`unhandledRejection Errors ${err.name} | ${err.massege}`);
-  server.close(() => {
-    console.error("Shutting down yor applaction...");
-    process.exit(1);
-  });
 });
